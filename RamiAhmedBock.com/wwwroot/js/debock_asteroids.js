@@ -116,6 +116,7 @@
             var index = aliens.indexOf(this);
             aliens.splice(index, 1);
             //console.log("alien die");
+            logEvent("Alien Death");
         }
 
         tick(aliens) {
@@ -150,6 +151,7 @@
     function runGame() {
         const framesPerSecond = 60;
         setInterval(update, 1000 / framesPerSecond);
+        logEvent("Game Loaded");
     }
 
     function update() {
@@ -279,6 +281,7 @@
     }
 
     function resetGame() {
+        logEvent("Reset Game");
         gameEnd = false;
         aliensKilled = 0;
         frame = 0;
@@ -312,6 +315,12 @@
         return new Vector2(
             (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
             (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
+    }
+
+    function logEvent(eventName) {
+        gtag('event', 'game', {
+            'event_category': eventName
+        });
     }
 
     resizeCanvas();

@@ -9,6 +9,28 @@
     user-select: none;
 }
 
+a, .btn {
+    pointer-events: all;
+    z-index: 9;
+}
+
+.btn-black {
+    background-color: black;
+    color: white;
+}
+
+    .btn-black:hover,
+    .btn-black:active,
+    .btn-black:focus {
+        background-color: darkred;
+        color: black;
+        text-decoration: none;
+    }
+
+.margin-top-50 {
+    margin-top: 50px;
+}
+
 canvas#background-canvas {
     display: block;
     position: absolute;

@@ -9,7 +9,16 @@
         var y = 75 + (Math.random() * (height - 150));
         image.css({ top: y + "px", left: x + "px", 'position': 'fixed' });
 
-        console.log("clicked " + x + ", " + y + ", width: " + width + ", height: " + height);
+        //console.log("clicked " + x + ", " + y + ", width: " + width + ", height: " + height);
+        gtag('event', 'profile_click', {
+            'event_category': 'Profile Image Click'
+        });
     });
 
+    $("#main-menu-button").click(function (evt) {
+        gtag('event', 'link', {
+            'event_category': 'Main Menu Button',
+            'href': $(this).attr('href')
+        });
+    });
 });
