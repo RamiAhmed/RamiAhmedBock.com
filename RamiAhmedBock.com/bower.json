@@ -1,0 +1,8 @@
+{
+  "name": "rami-ahmed-bock",
+  "description": "Rami Ahmed Bock personal website",
+  "main": [],
+  "dependencies": {
+    "Font-Awesome": "5.2.0"
+  }
+}
