@@ -4,6 +4,8 @@
 
     canvas.onmouseup = onMouseUp;
     canvas.onmousedown = onMouseDown;
+    canvas.ontouchstart = onMouseDown;
+    canvas.ontouchend = onMouseUp;
     canvas.addEventListener("mousemove", onMouseMove, false);
 
     // resize the canvas to fill browser window dynamically
