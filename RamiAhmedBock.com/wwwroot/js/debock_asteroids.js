@@ -2,11 +2,15 @@
     var canvas = document.getElementById("background-canvas");
     var ctx = canvas.getContext('2d');
 
+    // Mouse
     canvas.onmouseup = onMouseUp;
     canvas.onmousedown = onMouseDown;
+    canvas.onmousemove = onMouseMove;
+
+    // Touch
     canvas.ontouchstart = onMouseDown;
     canvas.ontouchend = onMouseUp;
-    canvas.addEventListener("mousemove", onMouseMove, false);
+    canvas.ontouchmove = onMouseMove;
 
     // resize the canvas to fill browser window dynamically
     window.addEventListener('resize', resizeCanvas, false);
