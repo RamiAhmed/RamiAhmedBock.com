@@ -10,7 +10,15 @@
     // Touch
     canvas.ontouchstart = onMouseDown;
     canvas.ontouchend = onMouseUp;
-    canvas.ontouchmove = onMouseMove;
+    canvas.ontouchmove = function (evt) {
+        var touch = evt.touches[0];
+        var mouseEvent = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+
+        canvas.dispatchEvent(mouseEvent);
+    };
 
     // resize the canvas to fill browser window dynamically
     window.addEventListener('resize', resizeCanvas, false);
@@ -322,7 +330,7 @@
             (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
             (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
     }
-
+    
     function logEvent(eventName) {
         gtag('event', 'game', {
             'event_category': eventName
