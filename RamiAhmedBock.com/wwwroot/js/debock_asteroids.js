@@ -27,7 +27,7 @@
         runGame();
     }
     else {
-        alert("need HTMl5 plx");
+        alert("Your browser does not support HTML5. Please upgrade or use a different browser.");
     }
 
     /* Types */
@@ -175,6 +175,7 @@
             var x = width * 0.5;
             var y = height * 0.5;
             ctx.textAlign = "center";
+            ctx.font = "14px Arial";
             ctx.fillText("GAME OVER!", x, y);
             y += 20;
             ctx.fillText("Killed: " + aliensKilled, x, y);
@@ -193,7 +194,8 @@
         ctx.fillRect(tankPosition.x, tankPosition.y, tankSize, tankSize);
 
         ctx.textAlign = "left";
-        ctx.fillText("Frame: " + frame + " | Killed: " + aliensKilled, 2, height - 2);
+        ctx.font = "14px Arial";
+        ctx.fillText("Frame: " + frame + " | Killed: " + aliensKilled, 5, height - 5);
 
         if (mouseDown) {
             fireBullet();
