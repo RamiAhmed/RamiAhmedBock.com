@@ -1,0 +1,186 @@
+/* Self-hosted fonts (Latin subset), so visitors don't hit Google's servers.
+   Comfortaa covers Danish (æøå); Do Hyeon (button labels) only has basic Latin, so keep button labels ASCII.
+   Both are under the SIL Open Font License; see fonts/*-OFL.txt. */
+@font-face {
+    font-family: 'Comfortaa';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/comfortaa-latin.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/do-hyeon-latin.woff2) format('woff2');
+}
+
+/* Base styles the old Bootstrap 3 build provided and the layout relies on. */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: 'Comfortaa', cursive;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    pointer-events: none;
+    background-color: transparent;
+    user-select: none;
+}
+
+html {
+    /* The game and footer draw black on the page: keep it white even when the browser prefers dark. */
+    background-color: white;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a {
+    pointer-events: all;
+    z-index: 9;
+}
+
+body {
+    /* Stop the first element's top margin from collapsing through <body>, which made phones scroll by 10px. */
+    display: flow-root;
+}
+
+canvas#background-canvas {
+    display: block;
+    position: absolute;
+    pointer-events: auto;
+    top: 0px;
+    bottom: 10px;
+    right: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+#main-menu-container {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+}
+
+.main-menu-button.game-button {
+    background-color: #320b3d;
+}
+
+.main-menu-button {
+    display: block;
+    z-index: 10;
+    width: 150px;
+    height: 50px;
+    margin: 10px 0px;
+    padding: 2px 15px;
+    border-radius: 5px;
+    background-color: black;
+
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: medium;
+    color: white;
+    line-height: 50px;
+    text-align: left;
+    vertical-align: middle;
+    text-decoration: none;
+    white-space: nowrap; /* keep the icon on the label's line, even before the font has loaded */
+
+    pointer-events: all;
+}
+
+    .main-menu-button:hover,
+    .main-menu-button:active,
+    .main-menu-button:focus {
+        background-color: darkred;
+        color: black;
+        text-decoration: none;
+    }
+
+.icon {
+    width: 1.333em;
+    height: 1.333em;
+    vertical-align: -0.25em;
+    fill: currentColor;
+}
+
+#text-container {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+}
+
+.main-menu-text {
+    font-size: medium;
+    background-color: black;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    margin: 10px 0px;
+
+    pointer-events: all;
+    z-index: 9;
+}
+
+#footer {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    pointer-events: all;
+    color: black;
+}
+
+    #footer a {
+        color: black;
+        text-decoration: none;
+    }
+
+    #footer a:hover,
+    #footer a:active,
+    #footer a:focus {
+        text-decoration: none;
+        color: darkred;
+    }
+
+#profile-image {
+    position: absolute;
+    right: 0px;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    z-index: 20;
+    cursor: pointer;
+    vertical-align: middle;
+
+    pointer-events: all;
+}
+
+    #profile-image:hover,
+    #profile-image:focus,
+    #profile-image:active {
+        filter: sepia(100%);
+    }
+
+/* Phones: stack links and text in the page flow instead of pinning them to the corners
+   (replaces the old duplicated markup with Bootstrap's hidden-xs / visible-xs). */
+@media (max-width: 767px) {
+    #main-menu-container,
+    #text-container {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        padding: 0 15px;
+    }
+
+    #profile-image {
+        right: 15px; /* line up with the text above it */
+    }
+}
