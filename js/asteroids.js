@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     var canvas = document.getElementById("background-canvas");
     var ctx = canvas.getContext('2d');
 
+    // Colour of everything the game draws; must stay readable on the page background in css/site.css.
+    const inkColor = 'rgb(220, 220, 220)';
+
     // Mouse
     canvas.onmouseup = onMouseUp;
     canvas.onmousedown = onMouseDown;
@@ -95,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         draw(ctx) {
-            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillStyle = inkColor;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
 
@@ -123,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         draw(ctx) {
-            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillStyle = inkColor;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
 
@@ -189,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Player tank
-        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillStyle = inkColor;
         ctx.fillRect(tankPosition.x, tankPosition.y, tankSize, tankSize);
 
         ctx.textAlign = "left";
