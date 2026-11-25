@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         normalize() {
-            var length = Math.sqrt(this.x * this.x + this.y * this.y);
+            const length = Math.sqrt(this.x * this.x + this.y * this.y);
             return new Vector2(this.x / length, this.y / length);
         }
     }
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //console.log("alien die");
         }
 
-        tick(aliens) {
+        tick(_) {
             this.y += this.speed;
 
             if (this.y > height) {
@@ -317,12 +317,12 @@ document.addEventListener("DOMContentLoaded", function () {
         //console.log("mouse move");
     }
 
-    function onMouseDown(evt) {
+    function onMouseDown(_) {
         mouseDown = true;
         //console.log("mouse down");
     }
 
-    function onMouseUp(evt) {
+    function onMouseUp(_) {
         mouseDown = false;
         //console.log("mouse up");
     }
