@@ -11,10 +11,15 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.onmousedown = onMouseDown;
     canvas.onmousemove = onMouseMove;
 
-    // Touch
-    canvas.ontouchstart = onMouseDown;
+    // Touch: aim at the finger as soon as it touches down, not only once it moves.
+    canvas.ontouchstart = function (evt) {
+        aimAtTouch(evt);
+        onMouseDown(evt);
+    };
     canvas.ontouchend = onMouseUp;
-    canvas.ontouchmove = function (evt) {
+    canvas.ontouchmove = aimAtTouch;
+
+    function aimAtTouch(evt) {
         const touch = evt.touches[0];
         const mouseEvent = new MouseEvent("mousemove", {
             clientX: touch.clientX,
@@ -22,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         canvas.dispatchEvent(mouseEvent);
-    };
+    }
 
     // resize the canvas to fill browser window dynamically
     window.addEventListener('resize', resizeCanvas, false);
@@ -194,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Player tank
         ctx.fillStyle = inkColor;
         ctx.fillRect(tankPosition.x, tankPosition.y, tankSize, tankSize);
+        drawBarrel();
 
         ctx.textAlign = "left";
         ctx.font = "14px Arial";
@@ -261,7 +267,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const bulletSpeed = 3;
     const bulletSize = 4;
-    const fireRate = 30; // every 30th frame
+    // Attack speed grows with the kill count, so the player keeps up as aliens fall faster.
+    // Frames between shots: starts at fireIntervalStart and drops by fireIntervalPerKill
+    // for each kill, down to fireIntervalMin (30 -> 8 frames takes 87 kills).
+    const fireIntervalStart = 30;
+    const fireIntervalPerKill = 0.25;
+    const fireIntervalMin = 8;
     let nextFire = 0;
     let fireOrigin = tankPosition.add(new Vector2(tankSize * 0.5, 0));
 
@@ -277,11 +288,33 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        nextFire = frame + fireRate;
+        nextFire = frame + fireInterval();
 
         const direction = cursor.subtract(fireOrigin);
         const bullet = new Bullet(fireOrigin, bulletSize, bulletSize, direction, bulletSpeed);
         bullets.push(bullet);
+    }
+
+    function fireInterval() {
+        return Math.round(Math.max(fireIntervalMin, fireIntervalStart - aliensKilled * fireIntervalPerKill));
+    }
+
+    // Barrel on top of the tank, always pointing at the cursor/finger so the player can aim before shooting.
+    const barrelLength = 20;
+
+    function drawBarrel() {
+        const toCursor = cursor.subtract(fireOrigin);
+        if (toCursor.x === 0 && toCursor.y === 0) {
+            return; // cursor exactly on the barrel's base: no direction to point in
+        }
+
+        const tip = fireOrigin.add(toCursor.normalize().multiply(barrelLength));
+        ctx.strokeStyle = inkColor;
+        ctx.lineWidth = bulletSize;
+        ctx.beginPath();
+        ctx.moveTo(fireOrigin.x, fireOrigin.y);
+        ctx.lineTo(tip.x, tip.y);
+        ctx.stroke();
     }
 
     /* Collision Detection */
