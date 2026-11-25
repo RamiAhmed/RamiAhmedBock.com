@@ -1,7 +1,7 @@
 // Background mini-game: hold the mouse (or a finger) down to shoot at the falling squares.
 document.addEventListener("DOMContentLoaded", function () {
-    var canvas = document.getElementById("background-canvas");
-    var ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("background-canvas");
+    const ctx = canvas.getContext('2d');
 
     // Colour of everything the game draws; must stay readable on the page background in css/site.css.
     const inkColor = 'rgb(220, 220, 220)';
@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.ontouchstart = onMouseDown;
     canvas.ontouchend = onMouseUp;
     canvas.ontouchmove = function (evt) {
-        var touch = evt.touches[0];
-        var mouseEvent = new MouseEvent("mousemove", {
+        const touch = evt.touches[0];
+        const mouseEvent = new MouseEvent("mousemove", {
             clientX: touch.clientX,
             clientY: touch.clientY
         });
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* Types */
 
-    var gameEnd = false;
+    let gameEnd = false;
 
     class Vector2 {
         constructor(x, y) {
@@ -103,12 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         die(bullets) {
-            var index = bullets.indexOf(this);
+            const index = bullets.indexOf(this);
             bullets.splice(index, 1);
         }
 
         tick(bullets) {
-            var velocity = this.direction.multiply(this.speed);
+            const velocity = this.direction.multiply(this.speed);
             this.position = this.position.add(velocity);
 
             if (this.y < 0 || this.x < 0 || this.x > width) {
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         die(aliens) {
-            var index = aliens.indexOf(this);
+            const index = aliens.indexOf(this);
             aliens.splice(index, 1);
             //console.log("alien die");
         }
@@ -150,20 +150,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* Mechanics */
 
-    var width = canvas.width;
-    var height = canvas.height;
+    let width = canvas.width;
+    let height = canvas.height;
 
-    var cursor = new Vector2(0, 0);
-    var mouseDown = false;
+    let cursor = new Vector2(0, 0);
+    let mouseDown = false;
 
-    var bullets = [];
-    var aliens = [];
-    var frame = 0;
+    let bullets = [];
+    let aliens = [];
+    let frame = 0;
 
     const tankSize = 25;
-    var tankPosition = new Vector2(width * 0.5, height - tankSize - 10);
+    let tankPosition = new Vector2(width * 0.5, height - tankSize - 10);
 
-    var aliensKilled = 0;
+    let aliensKilled = 0;
 
     function runGame() {
         const framesPerSecond = 60;
@@ -174,8 +174,8 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.clearRect(0, 0, width, height);
 
         if (gameEnd) {
-            var x = width * 0.5;
-            var y = height * 0.5;
+            const x = width * 0.5;
+            let y = height * 0.5;
             ctx.textAlign = "center";
             ctx.font = "14px Arial";
             ctx.fillText("GAME OVER!", x, y);
@@ -231,11 +231,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const alienSpawnGain = 0.00001;
     const alienMaxSpeed = 40;
 
-    var alienSpeed = alienSpeedStart;
-    var alienSpawnRate = alienSpawnStart;
-    var alienSize = 8;
+    let alienSpeed = alienSpeedStart;
+    let alienSpawnRate = alienSpawnStart;
+    let alienSize = 8;
 
-    var nextSpawn = 0;
+    let nextSpawn = 0;
 
     function tickAliens(ctx) {
         aliens.forEach(function (alien) {
@@ -252,8 +252,8 @@ document.addEventListener("DOMContentLoaded", function () {
         alienSpawnRate = Math.max(1, alienSpawnStart - frame * alienSpawnGain);
         alienSpeed = Math.min(alienMaxSpeed, alienSpeedStart + frame * alienSpeedGain);
 
-        var pos = new Vector2(alienSize + (Math.random() * (width - alienSize * 2)), 0);
-        var alien = new Alien(pos, alienSize, alienSize, alienSpeed);
+        const pos = new Vector2(alienSize + (Math.random() * (width - alienSize * 2)), 0);
+        const alien = new Alien(pos, alienSize, alienSize, alienSpeed);
         aliens.push(alien);
     }
 
@@ -262,8 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const bulletSpeed = 3;
     const bulletSize = 4;
     const fireRate = 30; // every 30th frame
-    var nextFire = 0;
-    var fireOrigin = tankPosition.add(new Vector2(tankSize * 0.5, 0));
+    let nextFire = 0;
+    let fireOrigin = tankPosition.add(new Vector2(tankSize * 0.5, 0));
 
     function tickBullets(ctx) {
         bullets.forEach(function (bullet) {
@@ -279,8 +279,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         nextFire = frame + fireRate;
 
-        var direction = cursor.subtract(fireOrigin);
-        var bullet = new Bullet(fireOrigin, bulletSize, bulletSize, direction, bulletSpeed);
+        const direction = cursor.subtract(fireOrigin);
+        const bullet = new Bullet(fireOrigin, bulletSize, bulletSize, direction, bulletSpeed);
         bullets.push(bullet);
     }
 
@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
     /* MOUSE */
 
     function onMouseMove(evt) {
-        var mousePos = getMousePos(canvas, evt);
+        const mousePos = getMousePos(canvas, evt);
         cursor.x = mousePos.x;
         cursor.y = mousePos.y;
         //console.log("mouse move");
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
         return new Vector2(
             (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
             (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
